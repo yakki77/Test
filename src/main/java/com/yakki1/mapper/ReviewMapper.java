@@ -1,37 +1,27 @@
 package com.yakki1.mapper;
 
-import com.yakki1.model.Product;
+import com.yakki1.model.Item;
 import com.yakki1.model.Review;
 import org.apache.ibatis.annotations.*;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ReviewMapper {
-    @Select("SELECT * FROM consumer_reviews WHERE reviews.username = #{username} LIMIT 1")
+    @Select("SELECT * FROM reviews WHERE username = #{username} AND text LIKE CONCAT('%',#{text},'%') " +
+            "ORDER BY date LIMIT 10 OFFSET #{offset}")
     @Results({
-            @Result(property = "auto_id", column = "auto_id"),
-            @Result(property = "productid", column = "id"),
-            @Result(property = "date",  column = "reviews.date"),
-            @Result(property = "dateSeen", column = "reviews.dateSeen"),
-            @Result(property = "didPurchase",  column = "reviews.didPurchase"),
-            @Result(property = "doRecommend", column = "reviews.doRecommend"),
-            @Result(property = "id",  column = "reviews.id"),
-            @Result(property = "numHelpful", column = "reviews.numHelpful"),
-            @Result(property = "rating",  column = "reviews.rating"),
-            @Result(property = "sourceURLs", column = "reviews.sourceURLs"),
-            @Result(property = "text", column = "reviews.text"),
-            @Result(property = "username",  column = "reviews.username"),
-            @Result(property = "title", column = "reviews.title")
+            @Result(property = "didPurchase",  column = "didPurchase", javaType = Boolean.class),
+            @Result(property = "doRecommend", column = "doRecommend", javaType = Boolean.class)
     })
-    List<Review> getReviews(String username, Integer rating, Integer count);
+    List<Review> getReviews(String username, String text, Integer offset);
 
-    @Select("SELECT * FROM consumer_reviews WHERE reviews.username = #{username} LIMIT 1")
+    @Select("SELECT count(distinct username) FROM reviews WHERE text LIKE CONCAT('%',#{text},'%') OR " +
+            "title LIKE CONCAT('%',#{title},'%') OR username LIKE CONCAT('%',#{username},'%')")
 //    @Results({
 //            @Result(property = "username",  column = "reviews.username"),
 //            @Result(property = "title", column = "reviews.title"),
 //    })
-    Product getByUser(String username);
+    int getReviewCount(String username, String title, String text);
 
     @Insert("INSERT INTO consumer_reviews(reviews.id,username, title, date) VALUES(#{id}, #{username}, #{title}, #{date})")
     void insert(Review review);

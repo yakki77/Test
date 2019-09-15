@@ -1,69 +1,80 @@
 package com.yakki1.controller;
 
-import com.yakki1.mapper.ProductMapper;
+import com.yakki1.mapper.ItemMapper;
 import com.yakki1.mapper.ReviewMapper;
-import com.yakki1.model.Product;
+import com.yakki1.model.Item;
 import com.yakki1.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 public class Controller {
 
     @Autowired
-    private ProductMapper productMapper;
+    private ItemMapper itemMapper;
     @Autowired
     private ReviewMapper reviewMapper;
 
-    @RequestMapping(value = "/getProducts", method={RequestMethod.GET})
-    public List<Product> getProducts(@RequestParam String id) {
-        List<Product> products = productMapper.getAll(id);
-        return products;
+    @RequestMapping(value = "/getItemById", method={RequestMethod.GET})
+    public List<Item> getItemById(@RequestParam String itemid) {
+        List<Item> items = itemMapper.getItemById(itemid);
+        return items;
     }
 
-    @RequestMapping(value = "/getProduct", method={RequestMethod.GET})
-    public Product getProduct(@RequestParam String id) {
-        if (id == null) {
-            System.out.println("id = null");
-        } else {
-            System.out.println(id);
-        }
-        Product product = productMapper.getOne(id);
-        return product;
-    }
+//    @RequestMapping(value = "/getItem", method={RequestMethod.GET})
+//    public Item getItems(@RequestParam String id) {
+//        if (id == null) {
+//            System.out.println("id = null");
+//        } else {
+//            System.out.println(id);
+//        }
+//        Item item = itemMapper.getItemById(id);
+//        return item;
+//    }
 
     @RequestMapping(value = "/add", method={RequestMethod.POST})
-    public void add(@RequestBody Product product) {
-        if (product == null) {
-            System.out.println("product = null");
+    public void add(@RequestBody Item item) {
+        if (item == null) {
+            System.out.println("item = null");
         } else {
-            System.out.println(product.toString());
+            System.out.println(item.toString());
         }
-        productMapper.insert(product);
+        itemMapper.insert(item);
     }
 
     @RequestMapping(value="update", method={RequestMethod.POST})
-    public void update(@RequestBody Product product) {
-        productMapper.update(product);
+    public void update(@RequestBody Item item) {
+        itemMapper.update(item);
     }
 
     @RequestMapping(value="/delete/{id}")
     public void delete(@PathVariable("id") String id) {
-        productMapper.delete(id);
+        itemMapper.delete(id);
     }
 
     @RequestMapping(value = "/getReviews", method={RequestMethod.GET})
-    public List<Review> getReviews(@RequestParam String username, Integer rating, Integer count) {
+    public List<Review> getReviews(@RequestParam String username, String text, Integer page) {
         if (username == null) {
             System.out.println("username = null");
         } else {
             System.out.println(username);
         }
-        List<Review> Reviews = reviewMapper.getReviews(username, rating, count);
+        int offset = 10*(page-1);
+        List<Review> Reviews = reviewMapper.getReviews(username, text, offset);
         return Reviews;
+    }
+
+    @RequestMapping(value = "/getReviewCount", method={RequestMethod.GET})
+    public int getReviewCount(@RequestParam String query) {
+        if (query == null) {
+            System.out.println("query = null");
+        } else {
+            System.out.println(query);
+        }
+        int count = reviewMapper.getReviewCount(query, query, query);
+        return count;
     }
 
 }

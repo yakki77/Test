@@ -7,13 +7,13 @@ import java.util.Date;
 public class Review implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String auto_id;
-    private String productid;
+    private String autoid;
+    private String itemid;
     private Date date;
-    private Date dateSeen;
-    private String didPurchase;
-    private String doRecommend;
-    private BigInteger id;
+    private String dateSeen;
+    private Boolean didPurchase;
+    private Boolean doRecommend;
+    private BigInteger reviewid;
     private Integer numHelpful;
     private Integer rating;
     private String sourceURLs;
@@ -25,9 +25,9 @@ public class Review implements Serializable {
         super();
     }
 
-    public Review(String productid, Date date, Integer rating, String title, String text, String username, String didPurchase, String doRecommend) {
+    public Review(String itemid, Date date, Integer rating, String title, String text, String username, Boolean didPurchase, Boolean doRecommend) {
         super();
-        this.productid = productid;
+        this.itemid = itemid;
         this.date = date;
         this.rating = rating;
         this.title = title;
@@ -40,23 +40,23 @@ public class Review implements Serializable {
     @Override
     public String toString() {
         // TODO Auto-generated method stub
-        return "productid: " + this.productid + ", title: "+ this.title + ", text: "+ this.text + ", rating: "+String.valueOf(rating);
+        return "productid: " + this.itemid + ", title: "+ this.title + ", text: "+ this.text + ", rating: "+String.valueOf(rating);
     }
 
-    public String getAuto_id() {
-        return auto_id;
+    public String getAutoid() {
+        return autoid;
     }
 
-    public void setAuto_id(String auto_id) {
-        this.auto_id = auto_id;
+    public void setAutoid(String autoid) {
+        this.autoid = autoid;
     }
 
     public String getProductid() {
-        return productid;
+        return itemid;
     }
 
-    public void setProductid(String productid) {
-        this.productid = productid;
+    public void setProductid(String itemid) {
+        this.itemid = itemid;
     }
 
     public Date getDate() {
@@ -67,36 +67,36 @@ public class Review implements Serializable {
         this.date = date;
     }
 
-    public Date getDateSeen() {
+    public String getDateSeen() {
         return dateSeen;
     }
 
-    public void setDateSeen(Date dateSeen) {
+    public void setDateSeen(String dateSeen) {
         this.dateSeen = dateSeen;
     }
 
-    public String getDidPurchase() {
+    public Boolean getDidPurchase() {
         return didPurchase;
     }
 
-    public void setDidPurchase(String didPurchase) {
+    public void setDidPurchase(Boolean didPurchase) {
         this.didPurchase = didPurchase;
     }
 
-    public String getDoRecommend() {
+    public Boolean getDoRecommend() {
         return doRecommend;
     }
 
-    public void setDoRecommend(String doRecommend) {
+    public void setDoRecommend(Boolean doRecommend) {
         this.doRecommend = doRecommend;
     }
 
-    public BigInteger getId() {
-        return id;
+    public BigInteger getReviewid() {
+        return reviewid;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setReviewid(BigInteger reviewid) {
+        this.reviewid = reviewid;
     }
 
     public Integer getNumHelpful() {
