@@ -5,6 +5,7 @@ import com.yakki1.mapper.ReviewMapper;
 import com.yakki1.model.Item;
 import com.yakki1.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public class Controller {
     }
 
     @RequestMapping(value = "/getReviews", method={RequestMethod.GET})
+    @Cacheable(value="review-key")
     public List<Review> getReviews(@RequestParam String username, String text, Integer page) {
         if (username == null) {
             System.out.println("username = null");
@@ -63,6 +65,7 @@ public class Controller {
         }
         int offset = 10*(page-1);
         List<Review> Reviews = reviewMapper.getReviews(username, text, offset);
+        System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
         return Reviews;
     }
 

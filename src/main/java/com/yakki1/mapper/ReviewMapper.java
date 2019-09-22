@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 public interface ReviewMapper {
-    @Select("SELECT * FROM reviews WHERE username = #{username} AND text LIKE CONCAT('%',#{text},'%') " +
+    @Select("SELECT * FROM reviews WHERE username = #{username} " +
             "ORDER BY date LIMIT 10 OFFSET #{offset}")
     @Results({
             @Result(property = "didPurchase",  column = "didPurchase", javaType = Boolean.class),
